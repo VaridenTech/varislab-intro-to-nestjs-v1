@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException, Inject } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { CreateCoffeeDto } from './dto/create-coffee.dto.js';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto.js';
@@ -12,6 +13,7 @@ export class CoffeesService {
     private readonly prisma: PrismaService,
     @Inject(COFFEE_BRANDS) coffeeBrands: string[],
     private readonly appConfigService: AppConfigService,
+    private readonly configService: ConfigService,
   ) {
     console.log(coffeeBrands);
     console.log(this.appConfigService.getEnvName());

@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { CoffeesController } from './coffees.controller.js';
 import { CoffeesService } from './coffees.service.js';
 import { COFFEE_BRANDS } from './coffees.constants.js';
@@ -10,6 +11,7 @@ import {
 } from './app-config.service.js';
 
 @Module({
+  imports: [ConfigModule],
   controllers: [CoffeesController],
   providers: [
     CoffeesService,
