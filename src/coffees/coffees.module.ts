@@ -9,9 +9,10 @@ import {
   DevelopmentAppConfigService,
   ProductionAppConfigService,
 } from './app-config.service.js';
+import coffeesConfig from './coffees.config.js';
 
 @Module({
-  imports: [ConfigModule],
+  imports: [ConfigModule, ConfigModule.forFeature(coffeesConfig)],
   controllers: [CoffeesController],
   providers: [
     CoffeesService,
