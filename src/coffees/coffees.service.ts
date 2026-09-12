@@ -8,11 +8,22 @@ export class CoffeesService {
   constructor(private readonly prisma: PrismaService) {}
 
   findAll() {
-    return this.prisma.coffee.findMany();
+    return this.prisma.coffee.findMany({
+      include: {
+        flavors: true,
+      },
+    });
   }
 
   async findOne(id: string) {
-    const coffee = await this.prisma.coffee.findUnique({ where: { id: +id } });
+    const coffee = await this.prisma.coffee.findUnique({
+      where: {
+        id: +id,
+      },
+      include: {
+        flavors: true,
+      },
+    });
     if (!coffee) {
       throw new NotFoundException(`Coffee #${id} not found`);
     }
@@ -20,18 +31,36 @@ export class CoffeesService {
   }
 
   create(createCoffeeDto: CreateCoffeeDto) {
-    // TODO(lesson 27): flavors ไม่ใช่ string[] อีกต่อไปหลัง Flavor relation ของบทที่ 25
-    // คอมเมนต์ไว้ชั่วคราว — เขียนใหม่ด้วย connectOrCreate ในบทที่ 26/27
-    // return this.prisma.coffee.create({ data: createCoffeeDto });
+    const { flavors, ...coffeeData } = createCoffeeDto;
+    return this.prisma.coffee.create({
+      data: {
+        ...coffeeData,
+        flavors: {
+          connectOrCreate: this.connectOrCreateFlavors(flavors),
+        },
+      },
+    });
   }
 
   async update(id: string, updateCoffeeDto: UpdateCoffeeDto) {
     await this.findOne(id); // ให้ id ที่ไม่มีจริงได้ 404 แบบเดียวกัน
-    // TODO(lesson 27): เหตุผลเดียวกับ create()
-    // return this.prisma.coffee.update({
-    //   where: { id: +id },
-    //   data: updateCoffeeDto,
-    // });
+    const { flavors, ...coffeeData } = updateCoffeeDto;
+    return this.prisma.coffee.update({
+      where: { id: +id },
+      data: {
+        ...coffeeData,
+        flavors: flavors && {
+          connectOrCreate: this.connectOrCreateFlavors(flavors),
+        },
+      },
+    });
+  }
+
+  private connectOrCreateFlavors(names: string[]) {
+    return names.map((name) => ({
+      where: { name },
+      create: { name },
+    }));
   }
 
   async remove(id: string) {
