@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { CoffeesController } from './coffees.controller.js';
 import { CoffeesService } from './coffees.service.js';
 import { COFFEE_BRANDS } from './coffees.constants.js';
+import { PrismaService } from '../prisma/prisma.service.js';
 import {
   AppConfigService,
   DevelopmentAppConfigService,
@@ -12,7 +13,14 @@ import {
   controllers: [CoffeesController],
   providers: [
     CoffeesService,
-    { provide: COFFEE_BRANDS, useValue: ['buddy brew', 'nescafe'] },
+    {
+      provide: COFFEE_BRANDS,
+      useFactory: (prisma: PrismaService) => {
+        console.log('factory: got', typeof prisma);
+        return ['buddy brew', 'nescafe'];
+      },
+      inject: [PrismaService],
+    },
     {
       provide: AppConfigService,
       useClass:
