@@ -15,9 +15,12 @@ import {
     CoffeesService,
     {
       provide: COFFEE_BRANDS,
-      useFactory: (prisma: PrismaService) => {
-        console.log('factory: got', typeof prisma);
-        return ['buddy brew', 'nescafe'];
+      useFactory: async (prisma: PrismaService): Promise<string[]> => {
+        // ของจริง: const rows = await prisma.coffee.findMany({
+        //   select: { brand: true }, distinct: ['brand'],
+        // });
+        const coffeeBrands = await Promise.resolve(['buddy brew', 'nescafe']);
+        return coffeeBrands;
       },
       inject: [PrismaService],
     },
