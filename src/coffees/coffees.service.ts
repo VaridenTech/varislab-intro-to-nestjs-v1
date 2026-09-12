@@ -1,25 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Coffee } from './entities/coffee.entity.js';
+import { PrismaService } from '../prisma/prisma.service.js';
 import { CreateCoffeeDto } from './dto/create-coffee.dto.js';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto.js';
 
 @Injectable()
 export class CoffeesService {
-  private coffees: Coffee[] = [
-    {
-      id: 1,
-      name: 'Shipwreck Roast',
-      brand: 'Buddy Brew',
-      flavors: ['chocolate', 'vanilla'],
-    },
-  ];
+  constructor(private readonly prisma: PrismaService) {}
 
   findAll() {
-    return this.coffees;
+    return this.prisma.coffee.findMany();
   }
 
-  findOne(id: string) {
-    const coffee = this.coffees.find(item => item.id === +id);
+  async findOne(id: string) {
+    const coffee = await this.prisma.coffee.findUnique({ where: { id: +id } });
     if (!coffee) {
       throw new NotFoundException(`Coffee #${id} not found`);
     }
@@ -27,22 +20,19 @@ export class CoffeesService {
   }
 
   create(createCoffeeDto: CreateCoffeeDto) {
-    const coffee = { id: this.coffees.length + 1, ...createCoffeeDto };
-    this.coffees.push(coffee);
-    return coffee;
+    return this.prisma.coffee.create({ data: createCoffeeDto });
   }
 
-  update(id: string, updateCoffeeDto: UpdateCoffeeDto) {
-    const existingCoffee = this.findOne(id);
-    if (existingCoffee) {
-      // update the existing entity
-    }
+  async update(id: string, updateCoffeeDto: UpdateCoffeeDto) {
+    await this.findOne(id); // ให้ id ที่ไม่มีจริงได้ 404 แบบเดียวกัน
+    return this.prisma.coffee.update({
+      where: { id: +id },
+      data: updateCoffeeDto,
+    });
   }
 
-  remove(id: string) {
-    const coffeeIndex = this.coffees.findIndex(item => item.id === +id);
-    if (coffeeIndex >= 0) {
-      this.coffees.splice(coffeeIndex, 1);
-    }
+  async remove(id: string) {
+    await this.findOne(id);
+    return this.prisma.coffee.delete({ where: { id: +id } });
   }
 }
