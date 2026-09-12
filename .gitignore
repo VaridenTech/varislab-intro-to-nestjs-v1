@@ -2,7 +2,10 @@ node_modules/
 dist/
 coverage/
 *.log
+
+# Env
 .env
+*.env
 
 /src/generated/prisma
 *.tsbuildinfo
