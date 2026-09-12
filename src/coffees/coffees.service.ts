@@ -73,4 +73,23 @@ export class CoffeesService {
     await this.findOne(id);
     return this.prisma.coffee.delete({ where: { id: +id } });
   }
+
+  async recommendCoffee(id: string) {
+    return this.prisma.$transaction(async (tx) => {
+      const coffee = await tx.coffee.update({
+        where: { id: +id },
+        data: { recommendations: { increment: 1 } },
+      });
+
+      await tx.event.create({
+        data: {
+          type: 'coffee',
+          name: 'recommend_coffee',
+          payload: { coffeeId: coffee.id },
+        },
+      });
+
+      return coffee;
+    });
+  }
 }

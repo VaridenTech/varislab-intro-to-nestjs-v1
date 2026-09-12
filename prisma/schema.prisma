@@ -13,12 +13,22 @@ datasource db {
 }
 
 model Coffee {
-  id      Int      @id @default(autoincrement())
-  name    String
-  brand   String
-  flavors Flavor[] // "กาแฟตัวนี้มี flavor อะไรบ้าง"
+  id              Int      @id @default(autoincrement())
+  name            String
+  brand           String
+  recommendations Int      @default(0)
+  flavors         Flavor[] // "กาแฟตัวนี้มี flavor อะไรบ้าง"
 
   @@map("coffee")
+}
+
+model Event {
+  id      Int    @id @default(autoincrement())
+  type    String
+  name    String
+  payload Json
+
+  @@map("event")
 }
 
 model Flavor {
