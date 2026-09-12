@@ -4,14 +4,17 @@ import { CreateCoffeeDto } from './dto/create-coffee.dto.js';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto.js';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto.js';
 import { COFFEE_BRANDS } from './coffees.constants.js';
+import { AppConfigService } from './app-config.service.js';
 
 @Injectable()
 export class CoffeesService {
   constructor(
     private readonly prisma: PrismaService,
     @Inject(COFFEE_BRANDS) coffeeBrands: string[],
+    private readonly appConfigService: AppConfigService,
   ) {
     console.log(coffeeBrands);
+    console.log(this.appConfigService.getEnvName());
   }
 
   findAll(paginationQuery: PaginationQueryDto) {
