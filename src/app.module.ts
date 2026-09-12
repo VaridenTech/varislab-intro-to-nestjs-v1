@@ -6,6 +6,7 @@ import { AppService } from './app.service.js';
 import { CoffeesModule } from './coffees/coffees.module.js';
 import { PrismaModule } from './prisma/prisma.module.js';
 import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module.js';
+import appConfig from './config/app.config.js';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module.js';
         DATABASE_URL: Joi.string().required(),
         PORT: Joi.number().default(3000),
       }),
+      load: [appConfig],
     }),
     CoffeesModule,
     PrismaModule,

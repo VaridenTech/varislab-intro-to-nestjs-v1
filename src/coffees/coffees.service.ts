@@ -17,6 +17,8 @@ export class CoffeesService {
   ) {
     console.log(coffeeBrands);
     console.log(this.appConfigService.getEnvName());
+    const databaseUrl = this.configService.get('database.url');
+    console.log(databaseUrl, this.configService.get('port'));
   }
 
   findAll(paginationQuery: PaginationQueryDto) {
