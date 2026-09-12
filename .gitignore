@@ -3,3 +3,6 @@ dist/
 coverage/
 *.log
 .env
+
+/src/generated/prisma
+*.tsbuildinfo
