@@ -39,6 +39,7 @@ export class CoffeesService {
           connectOrCreate: this.connectOrCreateFlavors(flavors),
         },
       },
+      include: { flavors: true },
     });
   }
 
@@ -50,9 +51,11 @@ export class CoffeesService {
       data: {
         ...coffeeData,
         flavors: flavors && {
+          set: [],
           connectOrCreate: this.connectOrCreateFlavors(flavors),
         },
       },
+      include: { flavors: true },
     });
   }
 
