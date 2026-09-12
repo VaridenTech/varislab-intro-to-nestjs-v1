@@ -2,16 +2,19 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { CreateCoffeeDto } from './dto/create-coffee.dto.js';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto.js';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto.js';
 
 @Injectable()
 export class CoffeesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  findAll() {
+  findAll(paginationQuery: PaginationQueryDto) {
+    const { limit, offset } = paginationQuery;
     return this.prisma.coffee.findMany({
-      include: {
-        flavors: true,
-      },
+      include: { flavors: true },
+      orderBy: { id: 'asc' },
+      skip: offset,
+      take: limit,
     });
   }
 
