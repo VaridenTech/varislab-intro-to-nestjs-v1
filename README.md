@@ -1,3 +1,21 @@
+# iluvcoffee — NestJS Fundamentals Workshop (Thai)
+
+Companion code for the [NestJS Fundamentals Thai workshop](https://github.com/VaridenTech/varislab-frontend-bootcamp-content-7-july-2026) (77 lessons). Every lesson has its own branch holding the code exactly as it should look at the end of that lesson — jump into the course at any point with:
+
+```
+git switch lesson-NN   # e.g. git switch lesson-24
+npm install
+npm run start:dev
+```
+
+**Branch map:**
+- `lesson-01` … `lesson-18` — Chapters 1–2 (CLI setup through auto-transform DTOs), in-memory CRUD.
+- `end-of-chapter-2` — checkpoint alias for `lesson-18`, referenced by lesson 19/70 as the fork point.
+- `main` — the SQL/Prisma path, continuing `lesson-18` through `lesson-69` (PostgreSQL, DI deep-dive, config, filters/guards/interceptors/pipes, Swagger, Vitest).
+- `lesson-70` … `lesson-77` (branched off `end-of-chapter-2`) — the MongoDB/Mongoose bonus track.
+
+---
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
