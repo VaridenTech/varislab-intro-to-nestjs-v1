@@ -8,7 +8,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { ApiForbiddenResponse, ApiNotFoundResponse } from '@nestjs/swagger';
+import { ApiForbiddenResponse, ApiNotFoundResponse, ApiTags } from '@nestjs/swagger';
 import { CoffeesService } from './coffees.service.js';
 import { CreateCoffeeDto } from './dto/create-coffee.dto.js';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto.js';
@@ -17,6 +17,7 @@ import { Public } from '../common/decorators/public.decorator.js';
 import { ParseIntPipe } from '../common/pipes/parse-int.pipe.js';
 import { Protocol } from '../common/decorators/protocol.decorator.js';
 
+@ApiTags('coffees')
 @Controller('coffees')
 export class CoffeesController {
   constructor(private readonly coffeesService: CoffeesService) {}
