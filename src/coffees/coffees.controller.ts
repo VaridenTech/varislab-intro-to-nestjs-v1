@@ -8,6 +8,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { ApiForbiddenResponse, ApiNotFoundResponse } from '@nestjs/swagger';
 import { CoffeesService } from './coffees.service.js';
 import { CreateCoffeeDto } from './dto/create-coffee.dto.js';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto.js';
@@ -30,11 +31,13 @@ export class CoffeesController {
     return this.coffeesService.findAll(paginationQuery);
   }
 
+  @ApiNotFoundResponse({ description: 'Coffee not found.' })
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.coffeesService.findOne('' + id);
   }
 
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Post()
   create(@Body() createCoffeeDto: CreateCoffeeDto) {
     return this.coffeesService.create(createCoffeeDto);
