@@ -1,30 +1,12 @@
-import { Injectable, NotFoundException, Inject } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import type { ConfigType } from '@nestjs/config';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { CreateCoffeeDto } from './dto/create-coffee.dto.js';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto.js';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto.js';
-import { COFFEE_BRANDS } from './coffees.constants.js';
-import { AppConfigService } from './app-config.service.js';
-import coffeesConfig from './coffees.config.js';
 
 @Injectable()
 export class CoffeesService {
-  constructor(
-    private readonly prisma: PrismaService,
-    @Inject(COFFEE_BRANDS) coffeeBrands: string[],
-    private readonly appConfigService: AppConfigService,
-    private readonly configService: ConfigService,
-    @Inject(coffeesConfig.KEY)
-    private coffeesConfiguration: ConfigType<typeof coffeesConfig>,
-  ) {
-    console.log(coffeeBrands);
-    console.log(this.appConfigService.getEnvName());
-    const databaseUrl = this.configService.get('database.url');
-    console.log(databaseUrl, this.configService.get('port'));
-    console.log(coffeesConfiguration.foo);
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   findAll(paginationQuery: PaginationQueryDto) {
     const { limit, offset } = paginationQuery;
