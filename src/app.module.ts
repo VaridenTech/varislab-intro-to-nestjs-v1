@@ -7,6 +7,7 @@ import { AppService } from './app.service.js';
 import { CoffeesModule } from './coffees/coffees.module.js';
 import { PrismaModule } from './prisma/prisma.module.js';
 import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module.js';
+import { CommonModule } from './common/common.module.js';
 import appConfig from './config/app.config.js';
 
 @Module({
@@ -21,6 +22,7 @@ import appConfig from './config/app.config.js';
     CoffeesModule,
     PrismaModule,
     CoffeeRatingModule,
+    CommonModule,
   ],
   controllers: [AppController],
   providers: [
