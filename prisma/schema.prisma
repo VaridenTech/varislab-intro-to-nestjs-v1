@@ -28,6 +28,8 @@ model Event {
   name    String
   payload Json
 
+  @@index([name])
+  @@index([name, type])
   @@map("event")
 }
 
