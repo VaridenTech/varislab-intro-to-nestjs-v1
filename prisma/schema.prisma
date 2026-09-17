@@ -16,7 +16,15 @@ model Coffee {
   id      Int      @id @default(autoincrement())
   name    String
   brand   String
-  flavors String[]
+  flavors Flavor[] // "กาแฟตัวนี้มี flavor อะไรบ้าง"
 
   @@map("coffee")
+}
+
+model Flavor {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  coffees Coffee[] // "flavor นี้อยู่ในกาแฟตัวไหนบ้าง"
+
+  @@map("flavor")
 }
