@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { CreateCoffeeDto } from './dto/create-coffee.dto.js';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto.js';
@@ -7,13 +6,7 @@ import { PaginationQueryDto } from '../common/dto/pagination-query.dto.js';
 
 @Injectable()
 export class CoffeesService {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly configService: ConfigService,
-  ) {
-    const databaseUrl = this.configService.get<string>('database.url');
-    const port = this.configService.get<number>('port', 3000);
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   findAll(paginationQuery: PaginationQueryDto) {
     const { limit, offset } = paginationQuery;
