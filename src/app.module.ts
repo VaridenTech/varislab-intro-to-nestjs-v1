@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import Joi from 'joi';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { CoffeesModule } from './coffees/coffees.module.js';
@@ -8,7 +9,13 @@ import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module.js';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      validationSchema: Joi.object({
+        DATABASE_URL: Joi.string().required(),
+        PORT: Joi.number().default(3000),
+      }),
+      isGlobal: true,
+    }),
     CoffeesModule,
     PrismaModule,
     CoffeeRatingModule,
